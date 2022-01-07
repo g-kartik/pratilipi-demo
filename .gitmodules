@@ -1,0 +1,9 @@
+[submodule "user_interaction"]
+	path = user_interaction
+	url = git@github.com:g-kartik/pratilipi-user-interaction.git
+[submodule "content"]
+	path = content
+	url = git@github.com:g-kartik/pratilipi-content.git
+[submodule "user"]
+	path = user
+	url = git@github.com:g-kartik/pratilipi-user.git
