@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Pratilipi.iml" filepath="$PROJECT_DIR$/.idea/Pratilipi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/.idea/User.iml" filepath="$PROJECT_DIR$/user/.idea/User.iml" />
+      <module fileurl="file://$PROJECT_DIR$/content/.idea/content.iml" filepath="$PROJECT_DIR$/content/.idea/content.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user_interaction/.idea/user_interaction.iml" filepath="$PROJECT_DIR$/user_interaction/.idea/user_interaction.iml" />
     </modules>
   </component>
 </project>
