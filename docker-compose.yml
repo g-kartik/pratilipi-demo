@@ -34,37 +34,13 @@ services:
       context: .
     image: pratilipi_base_image
 
-  content_base_image:
-      build:
-        context: ./content
-        dockerfile: ./Dockerfile_base
-      image: content_base_image
-      depends_on:
-        - base_image
-
-  user_base_image:
-    build:
-      context: ./user
-      dockerfile: ./Dockerfile_base
-    image: user_base_image
-    depends_on:
-      - base_image
-
-  user_interaction_base_image:
-    build:
-      context: ./user_interaction
-      dockerfile: ./Dockerfile_base
-    image: user_interaction_base_image
-    depends_on:
-      - base_image
-
   content:
     build:
       context: ./content
       dockerfile: ./Dockerfile
     container_name: lipi_content
     image: lipi_content
-    command: sh -c "python manage.py migrate && sh run.sh"
+    entrypoint: supervisord
     restart: always
     env_file:
       - ./env/prod_env/content/content.env
@@ -75,7 +51,7 @@ services:
     depends_on:
       - content_db
       - lipi_redis
-      - content_base_image
+      - base_image
 
   user:
     build:
@@ -95,7 +71,7 @@ services:
       - "8000:8000"
     depends_on:
       - user_db
-      - user_base_image
+      - base_image
 
   user-interaction:
     build:
@@ -115,4 +91,4 @@ services:
       - "5000:8000"
     depends_on:
       - user_interaction_db
-      - user_interaction_base_image
+      - base_image
