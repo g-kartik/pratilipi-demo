@@ -6,21 +6,27 @@ services:
     image: postgres:10-alpine
     restart: always
     env_file:
-      - ./env/prod_env/content/postgres.env
+      - ./env/dev_env/content/postgres.env
+    ports:
+      - "5432:5432"
 
   user_db:
     container_name: user_db
     image: postgres:10-alpine
     restart: always
     env_file:
-      - ./env/prod_env/user/postgres.env
+      - ./env/dev_env/user/postgres.env
+    ports:
+      - "5433:5432"
 
   user_interaction_db:
     container_name: user_interaction_db
     image: postgres:10-alpine
     restart: always
     env_file:
-      - ./env/prod_env/user_interaction/postgres.env
+      - ./env/dev_env/user_interaction/postgres.env
+    ports:
+      - "5434:5432"
 
   lipi_redis:
     container_name: lipi_redis
@@ -35,12 +41,12 @@ services:
     image: pratilipi_base_image
 
   content_base_image:
-      build:
-        context: ./content
-        dockerfile: ./Dockerfile_base
-      image: content_base_image
-      depends_on:
-        - base_image
+    build:
+      context: ./content
+      dockerfile: ./Dockerfile_base
+    image: content_base_image
+    depends_on:
+      - base_image
 
   user_base_image:
     build:
@@ -64,18 +70,19 @@ services:
       dockerfile: ./Dockerfile
     container_name: lipi_content
     image: lipi_content
-    command: sh -c "python manage.py migrate && sh run.sh"
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:3000"
     restart: always
     env_file:
-      - ./env/prod_env/content/content.env
-      - ./env/prod_env/content/postgres.env
-      - ./env/prod_env/services.env
-    ports:
-      - "3000:8000"
+      - ./env/dev_env/content/content.env
+      - ./env/dev_env/content/postgres.env
+      - ./env/dev_env/services.env
     depends_on:
       - content_db
       - lipi_redis
       - content_base_image
+    network_mode: host
 
   user:
     build:
@@ -88,31 +95,29 @@ services:
              python manage.py runserver 0.0.0.0:8000"
     restart: always
     env_file:
-      - ./env/prod_env/user/user.env
-      - ./env/prod_env/user/postgres.env
-      - ./env/prod_env/services.env
-    ports:
-      - "8000:8000"
+      - ./env/dev_env/user/user.env
+      - ./env/dev_env/user/postgres.env
+      - ./env/dev_env/services.env
     depends_on:
       - user_db
       - user_base_image
+    network_mode: host
 
-  user-interaction:
+  user_interaction:
     build:
-      context: ./user_interaction
+      context: ./user_interaction/
       dockerfile: ./Dockerfile
     container_name: lipi_user_interaction
     image: lipi_user_interaction
     command: >
       sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+             python manage.py runserver 0.0.0.0:5000"
     restart: always
     env_file:
-      - ./env/prod_env/user_interaction/user_interaction.env
-      - ./env/prod_env/user_interaction/postgres.env
-      - ./env/prod_env/services.env
-    ports:
-      - "5000:8000"
+      - ./env/dev_env/user_interaction/user_interaction.env
+      - ./env/dev_env/user_interaction/postgres.env
+      - ./env/dev_env/services.env
     depends_on:
       - user_interaction_db
       - user_interaction_base_image
+    network_mode: host
