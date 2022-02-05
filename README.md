@@ -3,7 +3,6 @@ Main repo for pratilipi demo for the Microservices assignment
 
 ## Instructions
 - This repo contains three submodules namely, content, user and user interaction. Use the command ```git clone --recurse-submodules <GIT_URL>``` to clone the repo including its submodules.
-- Copy the env folder to the repo's root directory.
 - The env folder contains ```.env``` files for both development and production environment following the **12-factor app** principle.
 - The docker-compose files for production and development evironment are ```docker-compose.yml``` and ```docker-compose_dev.yml``` respectively.
 - Run the commnad ```docker-compose up -d``` to build and run all the containers in production environment. Dockerfile at the root directory of the repo will be used to build the base image and the Dockerfile present in the each of the service directory will inherit from this base image.
