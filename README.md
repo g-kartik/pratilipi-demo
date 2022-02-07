@@ -13,6 +13,7 @@ them to test the api or use the following Postman workspace for the same.
 - Three test users are already seeded into the database, with ```user_id```, 1, 2, and 3.
 - For the data ingestion of books content use the , you should upload a csv file having ```title```, ```story```, ```date_published``` and ```user_id``` fields.
 The ```user_id``` entered into the file must be registered in the database, else the operation would fail.
+- The ```content repo``` has a test data file at path ```content/tests/test_content.csv```. You can use it as well.
 - The data ingestion will be queued to the redis queue and will return ```job_id```. You can check its status via ```books/status``` using the ```job_id```.
 - The content list api will be sorted by the user interaction which includes sorting by number of likes followed by number of reads. The books which don't have any interaction will be sorted by their primary key.
 
